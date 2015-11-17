@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `history` (
   `transaction_id` bigint(20) unsigned NOT NULL,
   `account_number` int(11) NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `description` varchar(255) NOT NULL DEFAULT '""',
   `credit` float NOT NULL,
   `debit` float NOT NULL
