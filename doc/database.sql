@@ -14,16 +14,16 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `history`
+-- Table structure for table `transaction`
 --
 
-CREATE TABLE IF NOT EXISTS `history` (
+CREATE TABLE IF NOT EXISTS `transaction` (
   `transaction_id` bigint(20) unsigned NOT NULL,
-  `account_number` int(11) NOT NULL,
+  `origin_account` bigint(20) NOT NULL,
+  `destination_account` bigint(20) NOT NULL,
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `description` varchar(255) NOT NULL DEFAULT '""',
-  `credit` float NOT NULL,
-  `debit` float NOT NULL
+  `amount` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_id` bigint(20) unsigned NOT NULL,
   `username` varchar(255) CHARACTER SET utf8 NOT NULL,
   `password` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `account_number` int(11) NOT NULL,
-  `amount` float NOT NULL
+  `account_number` bigint(20) NOT NULL,
+  `amount` float NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -45,11 +45,12 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 --
--- Indexes for table `history`
+-- Indexes for table `transaction`
 --
-ALTER TABLE `history`
+ALTER TABLE `transaction`
   ADD UNIQUE KEY `transaction_id` (`transaction_id`),
-  ADD KEY `account_number` (`account_number`);
+  ADD KEY `origin_account` (`origin_account`),
+  ADD KEY `destination_account` (`destination_account`);
 
 --
 -- Indexes for table `users`
@@ -64,9 +65,9 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `history`
+-- AUTO_INCREMENT for table `transaction`
 --
-ALTER TABLE `history`
+ALTER TABLE `transaction`
   MODIFY `transaction_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
@@ -78,10 +79,11 @@ ALTER TABLE `users`
 --
 
 --
--- Constraints for table `history`
+-- Constraints for table `transaction`
 --
-ALTER TABLE `history`
-  ADD CONSTRAINT `history_ibfk_1` FOREIGN KEY (`account_number`) REFERENCES `users` (`account_number`);
+ALTER TABLE `transaction`
+  ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`origin_account`) REFERENCES `users` (`account_number`);
+  ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`destination_account`) REFERENCES `users` (`account_number`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
