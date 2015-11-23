@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` bigint(20) unsigned NOT NULL,
   `username` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `owner_name` varchar(255) CHARACTER SET utf8 NOT NULL,
   `password` varchar(255) CHARACTER SET utf8 NOT NULL,
   `account_number` bigint(20) NOT NULL,
   `amount` float NOT NULL DEFAULT 0
