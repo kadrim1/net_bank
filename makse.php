@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Makse kinnitamine</title>
+
+    <link rel="icon" href="assets/pic/logo_BANK.ico">
+    <title>NBank</title>
+
 </head>
 <body>
 <h1>Makse kinnitamine</h1>
