@@ -36,4 +36,32 @@ class mysql
             }
         }
     }
+
+    function verify_Account($account_number) {
+        $query = "SELECT * FROM users WHERE account_number = $account_number";
+        $result = $this->conn->query($query);
+        if ($result->num_rows > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function check_Funds($account_number, $amount) {
+        $query = "SELECT amount FROM users WHERE account_number = $account_number";
+        $result = $this->conn->query($query)->fetch_assoc();
+        if ($result["amount"] >= $amount) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function make_Payment($account_from, $account_to, $amount) {
+        $query = "INSERT INTO transaction (origin_account, destination_account, date, description, amount)
+                    VALUES ($account_from, $account_to, NOW(), 'Payment', $amount)";
+        $this->conn->query($query) or die ("Transfer unsuccessful");
+    }
 }
