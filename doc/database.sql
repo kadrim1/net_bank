@@ -44,6 +44,18 @@ INSERT INTO `transaction` (`transaction_id`, `origin_account`, `destination_acco
 (2, 3837823982, 6373627236, '2015-11-25 12:07:57', '"Katse2"', 10),
 (3, 3837823982, 73647364, '2015-11-25 12:07:57', '"Katse3"', 3);
 
+--
+-- Triggers `transaction`
+--
+DELIMITER $$
+CREATE TRIGGER `update_amount_on_payment` AFTER INSERT ON `transaction`
+FOR EACH ROW BEGIN
+  UPDATE users SET amount = amount - NEW.amount WHERE account_number = NEW.origin_account;
+  UPDATE users SET amount = amount + NEW.amount WHERE account_number = NEW.destination_account;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
