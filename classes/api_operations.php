@@ -1,9 +1,17 @@
 <?php
 
+require_once "../mysql.php";
+
 function validate_request($request) {
     global $response;
-    if (empty($request['api_key']) || strlen($request['api_key']) >= 120 ) {
-        $response['message'] = "Invalid api key";
+
+    if (empty($request['api_key'])) {
+        $response['message'] = "The request must include a valid api key";
+        return false;
+    }
+    $mysql = new mysql();
+    if (!$mysql->verify_Token($request['api_key'])) {
+        $response['message'] = "Invalid api key provided";
         return false;
     }
     if (empty($request['description'])) {
@@ -31,6 +39,6 @@ function validate_request($request) {
 }
 
 function deliver_response($response) {
-    $json_response = json_encode($response);
+    $json_response = json_encode($response, JSON_UNESCAPED_SLASHES);
     echo $json_response;
 }
