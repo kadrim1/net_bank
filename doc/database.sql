@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 07, 2015 at 10:01 
+-- Generation Time: Dec 07, 2015 at 12:34 
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -34,8 +34,6 @@ CREATE TABLE IF NOT EXISTS `banklinks` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
 --
 -- Table structure for table `tokens`
 --
@@ -45,6 +43,13 @@ CREATE TABLE IF NOT EXISTS `tokens` (
   `user_id` bigint(20) unsigned NOT NULL,
   `confirm_url` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tokens`
+--
+
+INSERT INTO `tokens` (`token`, `user_id`, `confirm_url`) VALUES
+  ('nokkloomadontoredad', 1, 'www.example.com');
 
 -- --------------------------------------------------------
 
