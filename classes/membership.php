@@ -1,5 +1,5 @@
 <?php
-require "../mysql.php";
+require "mysql.php";
 
 //Add timeout later
 class membership
