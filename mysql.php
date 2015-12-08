@@ -48,6 +48,17 @@ class mysql
         }
     }
 
+    function verify_Token($token) {
+        $query = "SELECT * FROM tokens WHERE token = '$token'";
+        $result = $this->conn->query($query);
+        if ($result->num_rows > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     function check_Funds($account_number, $amount) {
         $query = "SELECT amount FROM users WHERE account_number = $account_number";
         $result = $this->conn->query($query)->fetch_assoc();
@@ -63,5 +74,24 @@ class mysql
         $query = "INSERT INTO transaction (origin_account, destination_account, date, description, amount)
                     VALUES ($account_from, $account_to, NOW(), 'Payment', $amount)";
         $this->conn->query($query) or die ("Transfer unsuccessful");
+    }
+
+    function generateRandomString($length = 60)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    function create_banklink($token, $amount, $description) {
+        $banklink = $this->generateRandomString();
+        $query = "INSERT INTO banklinks (banklink, user_id, amount, description, timestamp)
+                    VALUES ('$banklink', (SELECT user_id FROM tokens WHERE token='$token'), $amount, '$description', NOW())";
+        $this->conn->query($query) or die ("Couldn't create banklink");
+        return $banklink;
     }
 }
