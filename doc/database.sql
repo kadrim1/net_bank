@@ -2,10 +2,10 @@
 -- version 4.4.14
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Loomise aeg: Nov 25, 2015 kell 05:27 PL
--- Serveri versioon: 5.6.26
--- PHP versioon: 5.6.12
+-- Host: localhost
+-- Generation Time: Dec 07, 2015 at 10:01 
+-- Server version: 5.6.26
+-- PHP Version: 5.6.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,39 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Andmebaas: `net_bank`
+-- Database: `net_bank`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabeli struktuur tabelile `transaction`
+-- Table structure for table `banklinks`
+--
+
+CREATE TABLE IF NOT EXISTS `banklinks` (
+  `banklink` varchar(128) NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `description` varchar(160) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tokens`
+--
+
+CREATE TABLE IF NOT EXISTS `tokens` (
+  `token` varchar(50) NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `confirm_url` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaction`
 --
 
 CREATE TABLE IF NOT EXISTS `transaction` (
@@ -32,17 +58,18 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `destination_account` bigint(20) NOT NULL,
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `description` varchar(255) NOT NULL DEFAULT '""',
-  `amount` float NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `amount` decimal(10,2) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
--- Andmete tõmmistamine tabelile `transaction`
+-- Dumping data for table `transaction`
 --
 
 INSERT INTO `transaction` (`transaction_id`, `origin_account`, `destination_account`, `date`, `description`, `amount`) VALUES
-(1, 73647364, 3837823982, '2015-11-25 12:07:57', '"Katse1"', 50),
-(2, 3837823982, 6373627236, '2015-11-25 12:07:57', '"Katse2"', 10),
-(3, 3837823982, 73647364, '2015-11-25 12:07:57', '"Katse3"', 3);
+  (1, 73647364, 3837823982, '2015-11-25 12:07:57', '"Katse1"', '50.00'),
+  (2, 3837823982, 6373627236, '2015-11-25 12:07:57', '"Katse2"', '10.00'),
+  (3, 3837823982, 73647364, '2015-11-25 12:07:57', '"Katse3"', '3.00'),
+  (4, 3837823982, 73647364, '2015-11-25 12:07:57', '"Katse3"', '3.00');
 
 --
 -- Triggers `transaction`
@@ -59,7 +86,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Tabeli struktuur tabelile `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
@@ -68,62 +95,88 @@ CREATE TABLE IF NOT EXISTS `users` (
   `owner_name` varchar(255) CHARACTER SET utf8 NOT NULL,
   `password` varchar(255) CHARACTER SET utf8 NOT NULL,
   `account_number` bigint(20) NOT NULL,
-  `amount` float NOT NULL DEFAULT '0'
+  `amount` decimal(10,2) NOT NULL DEFAULT '0.00'
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
--- Andmete tõmmistamine tabelile `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `username`, `owner_name`, `password`, `account_number`, `amount`) VALUES
-(1, 'demo', 'Demo', 'demo', 73647364, 4000),
-(2, 'epood1', 'epood', 'epood', 6373627236, 100),
-(3, 'klient1', 'klient1', 'klient1', 3837823982, 30000);
+  (1, 'demo', 'Demo', 'demo', 73647364, '4003.00'),
+  (2, 'epood1', 'epood', 'epood', 6373627236, '100.00'),
+  (3, 'klient1', 'klient1', 'klient1', 3837823982, '29997.00');
 
 --
--- Indeksid tõmmistatud tabelitele
+-- Indexes for dumped tables
 --
 
 --
--- Indeksid tabelile `transaction`
+-- Indexes for table `banklinks`
+--
+ALTER TABLE `banklinks`
+ADD PRIMARY KEY (`banklink`),
+ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `tokens`
+--
+ALTER TABLE `tokens`
+ADD PRIMARY KEY (`token`),
+ADD KEY `tokens_user_id` (`user_id`);
+
+--
+-- Indexes for table `transaction`
 --
 ALTER TABLE `transaction`
-  ADD UNIQUE KEY `transaction_id` (`transaction_id`),
-  ADD KEY `origin_account` (`origin_account`),
-  ADD KEY `destination_account` (`destination_account`);
+ADD UNIQUE KEY `transaction_id` (`transaction_id`),
+ADD KEY `origin_account` (`origin_account`),
+ADD KEY `destination_account` (`destination_account`);
 
 --
--- Indeksid tabelile `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `user_id` (`user_id`),
-  ADD UNIQUE KEY `account_number` (`account_number`);
+ADD PRIMARY KEY (`user_id`),
+ADD UNIQUE KEY `user_id` (`user_id`),
+ADD UNIQUE KEY `account_number` (`account_number`);
 
 --
--- AUTO_INCREMENT tõmmistatud tabelitele
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT tabelile `transaction`
+-- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `transaction_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `transaction_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT tabelile `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `user_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
--- Tõmmistatud tabelite piirangud
+-- Constraints for dumped tables
 --
 
 --
--- Piirangud tabelile `transaction`
+-- Constraints for table `banklinks`
+--
+ALTER TABLE `banklinks`
+ADD CONSTRAINT `banklinks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `tokens`
+--
+ALTER TABLE `tokens`
+ADD CONSTRAINT `tokens_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `transaction`
 --
 ALTER TABLE `transaction`
-  ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`origin_account`) REFERENCES `users` (`account_number`),
-  ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`destination_account`) REFERENCES `users` (`account_number`);
+ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`origin_account`) REFERENCES `users` (`account_number`),
+ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`destination_account`) REFERENCES `users` (`account_number`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
