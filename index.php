@@ -5,7 +5,7 @@ $membership = new membership();
 $membership->confirm_Member();
 //Necessary to get data from database, replace in the future
 require_once 'mysql.php';
-$result = new mysql();
+$result = new bank_operations();
 ?>
 
 <!DOCTYPE html>

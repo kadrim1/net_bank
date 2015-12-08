@@ -1,12 +1,12 @@
 <?php
-require "mysql.php";
+require "bank_operations.php";
 
 //Add timeout later
 class membership
 {
     function validate_user($un, $pwd)
     {
-        $mysql = new mysql();
+        $mysql = new verify();
         $ensure_credentials = $mysql->verify_Username_and_Pass($un, $pwd); //Bcrypt or md5 to hash md5($pwd)
         //Although it would be much safer with bcrypt if you're paranoid, increase workload as much as you want!
         if ($ensure_credentials) {
