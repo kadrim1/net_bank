@@ -2,3 +2,10 @@
 div.container {
     width: 280px;
 }
+
+/* payment_confirmation */
+
+.container div, .list-group {
+    margin-top: 25px;
+}
+
