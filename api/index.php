@@ -16,6 +16,7 @@ if (isset($_POST) && !empty($_POST)) {
     }
     else {
         $response['status'] = 400;
+        http_response_code(400);
     }
 
     deliver_response($response);
