@@ -26,8 +26,8 @@ function validate_request($request) {
         $response['message'] = "The request must include an amount";
         return false;
     }
-    elseif ($request['amount'] < 0) {
-        $response['message'] = "The amount must be larger than zero";
+    elseif ($request['amount'] < 1) {
+        $response['message'] = "The amount must be larger than one";
         return false;
     }
     elseif ($request['amount'] > 10000) {
@@ -39,6 +39,7 @@ function validate_request($request) {
 }
 
 function deliver_response($response) {
+    header('Content-type: application/json; charset=utf-8');
     $json_response = json_encode($response, JSON_UNESCAPED_SLASHES);
     echo $json_response;
 }
