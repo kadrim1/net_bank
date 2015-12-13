@@ -3,8 +3,6 @@
 require_once 'classes/membership.php';
 $membership = new membership();
 $membership->confirm_Member();
-//Necessary to get data from database, replace in the future
-require_once 'mysql.php';
 $result = new bank_operations();
 ?>
 

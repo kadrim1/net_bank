@@ -1,6 +1,6 @@
 <?php
 
-require_once "../mysql.php";
+require_once "bank_operations.php";
 
 function validate_request($request) {
     global $response;
@@ -9,8 +9,8 @@ function validate_request($request) {
         $response['message'] = "The request must include a valid api key";
         return false;
     }
-    $mysql = new mysql();
-    if (!$mysql->verify_Token($request['api_key'])) {
+    $verify = new verify();
+    if (!$verify->verify_Token($request['api_key'])) {
         $response['message'] = "Invalid api key provided";
         return false;
     }
@@ -42,4 +42,26 @@ function deliver_response($response) {
     header('Content-type: application/json; charset=utf-8');
     $json_response = json_encode($response, JSON_UNESCAPED_SLASHES);
     echo $json_response;
+}
+
+function generateRandomString($length = 60)
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+function create_banklink($token, $amount, $description) {
+    $db = Db::getInstance()->getConnection();
+
+    $banklink = generateRandomString();
+    $query = "INSERT INTO banklinks (banklink, user_id, amount, description, timestamp)
+                    VALUES ('" . $banklink . "', (SELECT user_id FROM tokens WHERE token= '"
+        . mysqli_real_escape_string($db, $token) . "'), $amount, '$description', NOW())";
+    $db->query($query) or die ("Couldn't create banklink");
+    return $banklink;
 }
