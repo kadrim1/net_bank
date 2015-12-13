@@ -1,12 +1,11 @@
 <?php
-require "Db.php";
+require "../Db.php";
 
 class bank_operations
 {
     function transfer_Money($account_from, $account_to, $amount)
     {
         $verify = new verify();
-        $mysql = new mysql();
 
         // We check if the paying account exists
         if (!$verify->verify_Account($account_from)) {
@@ -15,7 +14,7 @@ class bank_operations
         }
 
         // We check for funds
-        if (!$mysql->check_Funds($account_from, $amount)) {
+        if (!$verify->check_Funds($account_from, $amount)) {
             echo "Insufficient funds";
             return false;
         }
@@ -26,8 +25,17 @@ class bank_operations
             return false;
         }
 
-        $mysql->make_Payment($account_from, $account_to, $amount);
+        $this->make_Payment($account_from, $account_to, $amount);
         echo "Your payment was executed";
+    }
+
+    function make_Payment($account_from, $account_to, $amount)
+    {
+        $db = Db::getInstance()->getConnection();
+
+        $query = "INSERT INTO transaction (origin_account, destination_account, date, description, amount)
+                    VALUES ($account_from, $account_to, NOW(), 'Payment', $amount)";
+        $db->query($query) or die ("Transfer unsuccessful");
     }
 
     function show_Balance($username)
@@ -72,6 +80,32 @@ class verify
         if ($result->num_rows > 0) {
             return true;
         } else {
+            return false;
+        }
+    }
+
+    function check_Funds($account_number, $amount)
+    {
+        $db = Db::getInstance()->getConnection();
+
+        $query = "SELECT amount FROM users WHERE account_number = $account_number";
+        $result = $db->query($query)->fetch_assoc();
+        if ($result["amount"] >= $amount) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function verify_Token($token) {
+        $db = Db::getInstance()->getConnection();
+
+        $query = "SELECT * FROM tokens WHERE token = '" . mysqli_real_escape_string($db, $token) . "'";
+        $result = $db->query($query);
+        if ($result->num_rows > 0) {
+            return true;
+        }
+        else {
             return false;
         }
     }
