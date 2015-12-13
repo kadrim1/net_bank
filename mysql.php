@@ -49,7 +49,7 @@ class mysql
     }
 
     function verify_Token($token) {
-        $query = "SELECT * FROM tokens WHERE token = '$token'";
+        $query = "SELECT * FROM tokens WHERE token = '" . mysqli_real_escape_string($this->conn, $token) . "'";
         $result = $this->conn->query($query);
         if ($result->num_rows > 0) {
             return true;
@@ -90,7 +90,8 @@ class mysql
     function create_banklink($token, $amount, $description) {
         $banklink = $this->generateRandomString();
         $query = "INSERT INTO banklinks (banklink, user_id, amount, description, timestamp)
-                    VALUES ('$banklink', (SELECT user_id FROM tokens WHERE token='$token'), $amount, '$description', NOW())";
+                    VALUES ('" . $banklink . "', (SELECT user_id FROM tokens WHERE token= '"
+                    . mysqli_real_escape_string($this->conn, $token) . "'), $amount, '$description', NOW())";
         $this->conn->query($query) or die ("Couldn't create banklink");
         return $banklink;
     }
