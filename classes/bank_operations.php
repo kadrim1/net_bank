@@ -1,6 +1,5 @@
 <?php
-require "config.php";
-require SITEPATH . "/Db.php";
+require __DIR__ . "/../Db.php";
 
 class bank_operations
 {
