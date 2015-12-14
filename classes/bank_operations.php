@@ -1,5 +1,6 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . "/net_bank/Db.php";
+require "config.php";
+require SITEPATH . "/Db.php";
 
 class bank_operations
 {
