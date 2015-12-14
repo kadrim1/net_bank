@@ -1,5 +1,5 @@
 <?php
-require "Db.php";
+require "../Db.php";
 
 class bank_operations
 {
