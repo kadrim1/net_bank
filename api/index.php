@@ -20,6 +20,5 @@ if (isset($_POST) && !empty($_POST)) {
     deliver_response($response);
 }
 else {
-    http_response_code(400);
-    echo "Bad request";
+    require_once 'instructions.php';
 }
