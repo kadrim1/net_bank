@@ -1,5 +1,5 @@
 <?php
-require "../Db.php";
+require $_SERVER['DOCUMENT_ROOT'] . "/net_bank/Db.php";
 
 class bank_operations
 {
