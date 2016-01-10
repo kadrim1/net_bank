@@ -6,8 +6,8 @@ require_once 'config.php';
 
 class Db
 {
-private static $_instance;
-        private $_connection; //The single instance
+    private static $_instance;
+    private $_connection; //The single instance
     private $_host = DATABASE_HOSTNAME;
     private $_username = DATABASE_USERNAME;
     private $_password = DATABASE_PASSWORD;
@@ -24,7 +24,7 @@ private static $_instance;
             $this->_password, $this->_database);
         // Error handling
         if (mysqli_connect_error()) {
-            trigger_error("Failed to connect to to MySQL: " . mysqli_connect_error(),
+            trigger_error("Failed to connect to MySQL: " . mysqli_connect_error(),
                 E_USER_ERROR);
         }
     }

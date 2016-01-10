@@ -45,7 +45,7 @@ class bank_operations
         $result = $db->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo "Konto number: " . $row["account_number"] . "<br />" . "Konto seis: " . $row["amount"] . "<br>";
+                return array($row['account_number'], $row['amount']);
             }
         }
     }
@@ -67,7 +67,11 @@ class verify
             if ($stmt->fetch()) {
                 $stmt->close();
                 return true;
+            } else {
+                return false;
             }
+        } else {
+            return false;
         }
     }
 
@@ -76,6 +80,31 @@ class verify
         $db = Db::getInstance()->getConnection();
 
         $query = "SELECT * FROM users WHERE account_number = $account_number";
+        $result = $db->query($query);
+        if ($result->num_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+class transaction
+{
+    function verify_link()
+    {
+        if ("link=correct") {
+            $_SESSION['status'] = 'payment';
+            header("location:login.php");
+        } else {
+            echo "Bad request!";
+        }
+    }
+
+    function get_link($bank_link)
+    {
+        $db = Db::getInstance()->getConnection();
+        $query = "SELECT * FROM banklink WHERE banklink = $bank_link";
         $result = $db->query($query);
         if ($result->num_rows > 0) {
             return true;
@@ -97,15 +126,15 @@ class verify
         }
     }
 
-    function verify_Token($token) {
+    function verify_Token($token)
+    {
         $db = Db::getInstance()->getConnection();
 
         $query = "SELECT * FROM tokens WHERE token = '" . mysqli_real_escape_string($db, $token) . "'";
         $result = $db->query($query);
         if ($result->num_rows > 0) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

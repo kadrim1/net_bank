@@ -2,7 +2,8 @@
 
 require_once "bank_operations.php";
 
-function validate_request($request) {
+function validate_request($request)
+{
     global $response;
 
     if (empty($request['api_key'])) {
@@ -17,20 +18,17 @@ function validate_request($request) {
     if (empty($request['description'])) {
         $response['message'] = "The request must include a description";
         return false;
-    }
-    elseif (strlen($request['description']) >= 120) {
+    } elseif (strlen($request['description']) >= 120) {
         $response['message'] = "The description must be at most 120 characters";
         return false;
     }
     if (empty($request['amount'])) {
         $response['message'] = "The request must include an amount";
         return false;
-    }
-    elseif ($request['amount'] < 1) {
+    } elseif ($request['amount'] < 1) {
         $response['message'] = "The amount must be larger than one";
         return false;
-    }
-    elseif ($request['amount'] > 10000) {
+    } elseif ($request['amount'] > 10000) {
         $response['message'] = "The maximum amount is 10000";
         return false;
     }
@@ -38,7 +36,8 @@ function validate_request($request) {
     return true;
 }
 
-function deliver_response($response) {
+function deliver_response($response)
+{
     header('Content-type: application/json; charset=utf-8');
     $json_response = json_encode($response, JSON_UNESCAPED_SLASHES);
     echo $json_response;
@@ -55,7 +54,8 @@ function generateRandomString($length = 60)
     return $randomString;
 }
 
-function create_banklink($token, $amount, $description) {
+function create_banklink($token, $amount, $description)
+{
     $db = Db::getInstance()->getConnection();
 
     $banklink = generateRandomString();

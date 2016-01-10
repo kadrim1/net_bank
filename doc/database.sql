@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `banklinks`
+-- Table structure for table `banklink`
 --
 
 CREATE TABLE IF NOT EXISTS `banklinks` (
@@ -117,7 +117,7 @@ INSERT INTO `users` (`user_id`, `username`, `owner_name`, `password`, `account_n
 --
 
 --
--- Indexes for table `banklinks`
+-- Indexes for table `banklink`
 --
 ALTER TABLE `banklinks`
 ADD PRIMARY KEY (`banklink`),
@@ -165,7 +165,7 @@ MODIFY `user_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 
 --
--- Constraints for table `banklinks`
+-- Constraints for table `banklink`
 --
 ALTER TABLE `banklinks`
 ADD CONSTRAINT `banklinks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);

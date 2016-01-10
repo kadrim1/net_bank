@@ -1,12 +1,14 @@
 <?php
 session_start();
 require_once 'classes/membership.php';
+require_once 'classes/bank_operations.php';
 $membership = new membership();
-//When you click log out
-if (isset($_GET['status']) && $_GET['status'] == 'loggedout') {
+$payment = new transaction();
+
+if (isset($_GET['status']) && $_GET['status'] == 'logged_out') {
     $membership->log_User_Out();
 }
-//Is user & pass set?
+
 if ($_POST && !empty($_POST['username']) && !empty($_POST['pwd'])) {
     $response = $membership->validate_user($_POST['username'], $_POST['pwd']);
 }
