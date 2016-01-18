@@ -14,23 +14,21 @@ if (isset($_SESSION["banklink"])) { ?>
     <head>
         <meta charset="utf-8">
         <title>PSEUDO BANK</title>
-        <!-- Style CSS -->
         <link rel="stylesheet" href="../assets/css/style.css">
-        <!-- Bootstrap core CSS -->
         <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
     <div>
         <div style="width: 40px;
+
             height: 40px;
             background-size: 100%;
             background-repeat: no-repeat;
             display: inline-block;
     ">
         </div>
-
         <div class="container">
-            <h2 style="color: #ffa102">PSEUDO BANK</h2>
+            <span><h2 style="color: #ffa102">PSEUDO BANK</h2></span>
             <h5 style="color: #4382f8">BANKLINK</h5>
 
             <form class="form-signin" action="confirmation.php" method="post">
@@ -49,7 +47,6 @@ if (isset($_SESSION["banklink"])) { ?>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
             </form>
         </div>
-        <!-- /container -->
     </div>
     </body>
     </html>

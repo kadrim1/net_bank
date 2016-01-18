@@ -1,6 +1,7 @@
 <?php
 date_default_timezone_set('Europe/Tallinn');
 ini_set('date.timezone', 'Europe/Tallinn');
+
 require_once 'Banklink.php';
 session_start();
 if (!empty($_SESSION["authenticated"]) && $_SESSION['confirmed'] && $_SESSION["authenticated"]) { ?>
@@ -11,20 +12,25 @@ if (!empty($_SESSION["authenticated"]) && $_SESSION['confirmed'] && $_SESSION["a
     <html lang="en">
     <head>
         <meta charset="utf-8">
+
         <title>Payment Confirmed!</title>
+
+
         <!-- Bootstrap core CSS -->
         <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+
         <style>
             html {
                 display: table;
                 margin: auto;
             }
         </style>
+
     <body>
 
 
     <div id="container">
-        <h2 style="color: #ffa102">PSEUDO BANK</h2>
+        <span style="color: #ffa102">PSEUDO BANK</span>
 
         <h2 style="color: blue"><?= $_SESSION['confirmed'] ?></h2>
 
@@ -45,13 +51,13 @@ if (!empty($_SESSION["authenticated"]) && $_SESSION['confirmed'] && $_SESSION["a
         <br/>
 
         <?php if (!empty($_SESSION['return_url'])) { ?>
-            <a class="btn btn-lg btn-primary" href="<?=$_SESSION['return_url'] ?>">BACK TO ONLINE SHOP</a>
+            <a class="btn btn-lg btn-primary" href="<?= $_SESSION['return_url'] ?>">BACK TO ONLINE SHOP</a>
             <br/>
         <?php }; ?>
 
 
         <?php if (!empty($_SESSION['confirmation_sent'])) { ?>
-            <p id="<?=$_SESSION['confirmation_sent'] ?>">confirmation sent</p>
+            <p id="<?= $_SESSION['confirmation_sent'] ?>">confirmation sent</p>
             <br/>
 
         <?php }; ?>
